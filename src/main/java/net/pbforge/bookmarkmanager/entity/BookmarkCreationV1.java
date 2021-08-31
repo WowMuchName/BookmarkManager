@@ -18,6 +18,8 @@ import net.pbforge.bookmarkmanager.entity.BookmarkCreationV1.BookmarkCreationV1B
 @JsonDeserialize(builder = BookmarkCreationV1Builder.class)
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class BookmarkCreationV1 {
+    public static final String MIME = "application/vnd.net.pbforge.bookmark-creation-v1";
+
     @NonNull
     String name;
     @NonNull
