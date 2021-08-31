@@ -1,6 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+
+// Components
+import BookmarkEditor from "@/components/BookmarkEditor.vue";
+
+Vue.component("bookmark-editor", BookmarkEditor)
+
+// Bootstrap-Vue
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)

@@ -3,6 +3,7 @@ package net.pbforge.bookmarkmanager.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -20,10 +21,13 @@ import net.pbforge.bookmarkmanager.entity.BookmarkCreationV1.BookmarkCreationV1B
 public class BookmarkCreationV1 {
     public static final String MIME = "application/vnd.net.pbforge.bookmark-creation-v1";
 
+    @Schema(required = true, description = "The name of the bookmark")
     @NonNull
     String name;
+    @Schema(required = true, description = "The URL of the bookmark")
     @NonNull
     String url;
+    @Schema(description = "The description provided for a bookmark")
     @NonNull
     @Default
     String description = "";

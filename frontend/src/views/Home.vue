@@ -9,14 +9,36 @@
     b-row: b-col
       span Table goes here
     b-row: b-col
-      b-button(variant="primary") Create
+      b-button(variant="primary" @click="createBookmarkDialogVisible=true" ) Create
+    //- Dialogs
+    b-modal(v-model="createBookmarkDialogVisible" ok-title="Save" @ok="createBookmark(creatingBookmark)")
+      bookmark-editor(v-model="creatingBookmark")
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import {
+  BookmarkCreationV1,
+  BookmarkV1
+} from "@/remote-client";
+import { remoteApi } from "@/lib/Api";
 
 @Component({
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  private createBookmarkDialogVisible = false;
+  private creatingBookmark: BookmarkCreationV1 = {
+    name: "My amazing bookmark",
+    url: "https://google.com",
+    description: "Description for the bookmark",
+  };
+
+  public async createBookmark(bookmark: BookmarkCreationV1) {
+    let result = await remoteApi.bookmark.create(bookmark);
+  }
+
+  public async refreshTable() {
+
+  }
+}
 </script>

@@ -29,6 +29,8 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
 
     implementation 'com.google.guava:guava:30.1.1-jre'
+
+    implementation 'org.springdoc:springdoc-openapi-webflux-core:1.5.10'
 }
 
 test {
