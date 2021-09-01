@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import net.pbforge.bookmarkmanager.entity.BookmarkCreationV1;
 import net.pbforge.bookmarkmanager.entity.BookmarkV1;
 import net.pbforge.bookmarkmanager.service.BookmarkService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+// TODO This disables CORS so we can run the FE and BE on different ports in development. When going to production
+//      CORS will be handled by spring security. This will allow turning CORS on and off globally in the profile.
+@CrossOrigin("*")
 @RestController()
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

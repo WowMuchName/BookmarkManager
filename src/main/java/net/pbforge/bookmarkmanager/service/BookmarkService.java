@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.NoSuchElementException;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -35,7 +37,18 @@ public class BookmarkService {
     }
 
     public Mono<BookmarkV1> updateBookmark(@NonNull BookmarkV1 bookmark) {
+        // Note: We cannot make id an required field on entity level without making our live much harder.
+        // In the context of the update however it is required, which is why we need this special check on service
+        // level.
         Preconditions.checkArgument(bookmark.getId() != null, "No Id specified for bookmark");
-        return bookmarkDao.save(bookmark);
+        return bookmarkDao.existsById(bookmark.getId()).flatMap(exists -> {
+            // Note: When we upsert an element that does not exist it is created. We want this method to be a pure
+            // update as there might be cases where users are allowed to update stuff but not create. Hence we do
+            // this additional check here.
+            if (!Boolean.TRUE.equals(exists)) {
+                return Mono.error(new NoSuchElementException());
+            }
+            return bookmarkDao.save(bookmark);
+        });
     }
 }

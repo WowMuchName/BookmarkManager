@@ -21,8 +21,8 @@ import org.springframework.data.annotation.Id;
 @JsonDeserialize(builder = BookmarkV1Builder.class)
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class BookmarkV1 {
-    public static final String MIME = "application/vnd.net.pbforge.bookmark-v1";
-    public static final String LIST_MIME = "application/vnd.net.pbforge.bookmark-list-v1";
+    public static final String MIME = "application/vnd.net.pbforge.bookmark-v1+json";
+    public static final String LIST_MIME = "application/vnd.net.pbforge.bookmark-list-v1+json";
 
     // Note: Using @NonNull here makes it harder to work with in the dao.
     // However, on the specification level this is still a required property.
