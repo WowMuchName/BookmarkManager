@@ -37,10 +37,25 @@
       b-button(variant="secondary" @click="refreshTable()" ): b-icon-arrow-clockwise
 
     //- Dialogs
-    b-modal(v-model="createBookmarkDialogVisible" ok-title="Save" @ok="createBookmark(creatingBookmark)")
+    b-modal(title="Create Bookmark" v-model="createBookmarkDialogVisible")
       bookmark-editor(v-model="creatingBookmark")
-    b-modal(v-model="editBookmarkDialogVisible" ok-title="Update" @ok="updateBookmark(editingBookmark)")
+      template(#modal-footer="{ok, cancel}")
+        b-button(@click="cancel()") Cancel
+        b-button(
+          @click="ok(); createBookmark(creatingBookmark)"
+          variant="primary"
+          :disabled="!isCreatingBookmarkValid"
+        ) Save
+    b-modal(title="Update Bookmark" v-model="editBookmarkDialogVisible")
       bookmark-editor(v-model="editingBookmark")
+      template(#modal-footer="{ok, cancel}")
+        b-button(@click="cancel()") Cancel
+        b-button(
+          @click="ok(); updateBookmark(editingBookmark)"
+          variant="primary"
+          :disabled="!isEditingBookmarkValid"
+        ) Update
+
 </template>
 
 <script lang="ts">
@@ -50,6 +65,7 @@ import {
   BookmarkV1
 } from "@/remote-client";
 import { remoteApi } from "@/lib/Api";
+import { Validator } from "@/lib/Validator";
 
 @Component({
 })
@@ -60,6 +76,9 @@ export default class Home extends Vue {
     url: "https://google.com",
     description: "Description for the bookmark",
   };
+  private get isCreatingBookmarkValid(): boolean {
+    return Validator.bookmarkValid(this.creatingBookmark)
+  }
 
   private editBookmarkDialogVisible = false;
   private editingBookmark: BookmarkV1 = {
@@ -68,6 +87,9 @@ export default class Home extends Vue {
     url: "",
     description: "",
   };
+  private get isEditingBookmarkValid(): boolean {
+    return Validator.bookmarkValid(this.editingBookmark)
+  }
 
   private busy = true;
   private visiblePage: BookmarkV1[] = [this.creatingBookmark as any];
